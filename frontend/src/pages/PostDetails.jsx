@@ -1,33 +1,26 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 function PostDetails() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/post/${id}`)
-      .then((response) => response.json())
-      .then((data) => setPost(data.getPostbyId));
+    fetch(`http://localhost:4000/api/posts/${id}`)
+      .then(response => response.json())
+      .then(data => setPost(data))
+      .catch(error => console.error('Error fetching post:', error));
   }, [id]);
 
-  const handleDelete = async () => {
-    await fetch(`http://localhost:4000/api/post/${id}`, { method: 'DELETE' });
-    navigate('/');
-  };
+  if (!post) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
-      {post && (
-        <>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-          <p>Author: {post.author}</p>
-          <button onClick={handleDelete}>Delete Post</button>
-          <button onClick={() => navigate(`/edit/${post._id}`)}>Edit Post</button>
-        </>
-      )}
+      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+      <p className="text-gray-700">{post.content}</p>
+      <p className="mt-4 text-gray-500">Author: {post.author}</p>
     </div>
   );
 }
