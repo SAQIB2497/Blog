@@ -1,18 +1,21 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-//Making Schema
+// Making Schema
 const postSchema = new mongoose.Schema({
-    title: {
-        type: String, require: true
-    },
-    content: {
-        type: String, require: true
-    },
-    author: { 
-        type: String, required: true 
-    }
-})
+  title: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  author: { 
+    type: String, 
+    required: true 
+  }
+});
 
-const Post = mongoose.model('Post', postSchema); 
+const Post = mongoose.model('Post', postSchema);
 
-export default Post; //Exporting Model
+export default Post; // Exporting Model
